@@ -8,3 +8,4 @@ The search engine uses simple BM25/TF-IDF scoring to compute the relevance of ea
 
 * nltk (stopwords, stemming)
 * pandas (data structure)
+* pickle (index saving/retrieval)
