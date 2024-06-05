@@ -1,14 +1,23 @@
 from collections import *
 import math
 import re
+import os
+import pickle
 from nltk.corpus import stopwords
 
+
+# Necessary to be able to pickle the index
+def create_defaultdict():
+    return defaultdict(int)
+
+
 class SearchEngine:
-    def __init__(self, dataset):
+    def __init__(self, dataset, index_path):
         self.database = dataset
-        self.index = defaultdict(lambda: defaultdict(int))
+        self.index = defaultdict(create_defaultdict)
         self.saturation_parameter = 1.2
         self.length_parameter = 0.75
+        self.index_path = index_path
         self._index_content()
 
     def search(self, query):
@@ -75,15 +84,24 @@ class SearchEngine:
     
     def _index_content(self):
         """
-        Indexes the database's content into a dict containing for each
-        singular word the occurence per article.
+        Indexes the database's content into a dict containing, for each
+        singular word, the occurence per article.
         """
-        print("Indexing articles from code_du_travail.csv...")
-        for i, row in self.database.iterrows():
-            word_list = self._get_words_from_text(row['texte'])
-            for word in word_list:
-                self.index[word][row['article_id']] += 1
-        print("Indexing done !")
+        if os.path.isfile(self.index_path):
+            print(f"Loading pre-existing index from {self.index_path}...")
+            index_file = open(self.index_path, "rb")
+            self.index = pickle.load(index_file)
+            print("Loading complete !")
+        else:
+            print("Indexing articles from code_du_travail.csv...")
+            for i, row in self.database.iterrows():
+                word_list = self._get_words_from_text(row['texte'])
+                for word in word_list:
+                    self.index[word][row['article_id']] += 1
+            index_file = open(self.index_path, "wb")
+            pickle.dump(self.index, index_file)
+            print("Indexing done !")
+            print(f"Indexed data saved to {self.index_path}")
 
     def _update_scores(self, article_scores, word_score_per_article):
         """

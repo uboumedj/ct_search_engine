@@ -1,6 +1,7 @@
 import pandas as pd
 import click
 import re
+import os
 import time
 import locale
 from searchengine import SearchEngine
@@ -140,10 +141,15 @@ def query_loop(dataset, engine):
 
 @click.command()
 @click.option('--file', default='./code_du_travail.csv', help='CSV file path')
-def main(file):
+@click.option('--index', default='./index_cdt.pkl', help='Generated index\'s file path')
+@click.option('--retrain', default=False, is_flag=True, help='Whether to re-index the content or not')
+def main(file, index, retrain):
     locale.setlocale(locale.LC_TIME, "fr_FR.utf8")
     dataset = read_csv(file)
-    engine = SearchEngine(dataset=dataset)
+    if retrain == True:
+        if os.path.isfile(index) and re.match("^\..*\.pkl", index):
+            os.remove(index)
+    engine = SearchEngine(dataset=dataset, index_path=index)
     query_loop(dataset, engine)
 
 
