@@ -10,3 +10,9 @@ The search engine uses simple BM25/TF-IDF scoring to compute the relevance of ea
 * pandas (data structure)
 * pickle (index saving/retrieval)
 * fastAPI (small app with interface)
+
+### What should be improved
+
+BM25 search with Python is very slow. With a single term, search delay is reasonable. With multiple terms, it becomes cumbersome. Needs improvement.
+
+Also, might take a look at LLMs for query augmentation.
