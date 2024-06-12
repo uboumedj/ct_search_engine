@@ -113,7 +113,6 @@ hr {
   &:hover {
     text-shadow: 0.05em 0.05em 0.05em #0f1b76;
   }
-
 }
 
 .resultnumber {
@@ -121,4 +120,29 @@ hr {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.article-list {
+  font-size: 18px;
+  text-align: left;
+  min-height: 100vh;
+  max-width: 100vw;
+  padding: 5%;
+}
+
+.article-list li {
+  max-width: 100vw;
+  list-style-type: none;
+
+  &:hover {
+    text-shadow: 0.05em 0.05em 0.05em #0f1b76;
+  }
+}
+
+.article-separator {
+  border: 0;
+  height: 1px;
+  width: 20%;
+  background-image: linear-gradient(to right, transparent, #0f1b76, transparent);
+
 }

@@ -9,10 +9,17 @@
     </h1>
     <p class="resultnumber">{{number}} results found<p>
     <hr/>
-    <div class="plaintext">
-        <ul>
-            {% for url, score in results %}
-                <li><a href="{{ url }}">{{ url }}</a> - Score: {{ score }}</li>
+    <div>
+        <ul class="article-list">
+            {% for article in results %}
+                <li>Article <b>{{article['article_num'].iloc[0]}}</b><br/>
+                    In effect since {{article['date_deb'].iloc[0]}}<br/><br/>
+                    
+                    {% for line in article['texte'].iloc[0] %}
+                        {{line}}<br/>
+                    {% endfor %}
+                </li>
+                <hr class="article-separator" />
             {% endfor %}
         </ul>
     </div>

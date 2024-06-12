@@ -1,29 +1,10 @@
-import pandas as pd
 import click
 import re
 import os
-import time
 import locale
 from searchengine import SearchEngine
-from utilities import extract_titles
+from utilities import extract_titles, read_csv, convert_date
 
-def read_csv(file_path):
-    """
-    Reads the csv file located at specified path and returns its content
-    Parameters:
-        file_path (str): the csv file's location
-    Returns:
-        The contents inside a Pandas Dataframe
-    """
-    if (not isinstance(file_path, str)):
-        print("error: Path of dataset file must be a string")
-        return None
-    try:
-        data = pd.read_csv(file_path)
-    except FileNotFoundError:
-        print("error: Specified file was not found")
-        return None
-    return data
 
 def solve_query(query, dataset, engine):
     """
@@ -44,25 +25,6 @@ def solve_query(query, dataset, engine):
         if len(results) > 5:
             break
     return results
-
-
-def convert_date(timestamp):
-    """
-    Converts a date from the str timestamp found in the dataset
-    into a real date.
-    Parameters:
-        timestamp (str): a timestamp in str format and in milliseconds
-    Returns:
-        The correctly formatted date
-    """
-    try:
-        timestamp = float(timestamp) / 1000.0
-    except:
-        print("warning: error while converting timestamp to a number")
-        return None
-    time_info = time.gmtime(timestamp)
-    date = time.strftime("%d %b %Y", time_info)
-    return date
 
 
 def display_results(user_query, result_list):
