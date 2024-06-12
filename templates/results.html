@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <h1>
+        <span>
+            {{query}}
+        </span>
+        Search <b>Results</b>
+    </h1>
+    <p class="resultnumber">{{number}} results found<p>
+    <hr/>
+    <div class="plaintext">
+        <ul>
+            {% for url, score in results %}
+                <li><a href="{{ url }}">{{ url }}</a> - Score: {{ score }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+{% endblock %}

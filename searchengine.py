@@ -14,6 +14,7 @@ def create_defaultdict():
 class SearchEngine:
     def __init__(self, dataset, index_path):
         self.database = dataset
+        print(dataset)
         self.index = defaultdict(create_defaultdict)
         self.saturation_parameter = 1.2
         self.length_parameter = 0.75
@@ -95,7 +96,7 @@ class SearchEngine:
         else:
             print("Indexing articles from code_du_travail.csv...")
             for i, row in self.database.iterrows():
-                word_list = self._get_words_from_text(row['texte'])
+                word_list = self._get_words_from_row(row)
                 for word in word_list:
                     self.index[word][row['article_id']] += 1
             index_file = open(self.index_path, "wb")
@@ -131,16 +132,16 @@ class SearchEngine:
         normalized_word = normalized_word.strip(".,;:()°")
         return self.index[normalized_word]
 
-    def _get_words_from_text(self, text):
+    def _get_words_from_row(self, row):
         """
-        Extracts every single word from a normalized article text, excluding
+        Extracts every single word from a normalized article, excluding
         words found in nltk's french stopwords list, which are mainly useless
         Parameters:
-            text (str): the article text we want the words from
+            row (pd.dataFrame): the article we want the words from
         Returns:
             A list containing every word from the text
         """
-        normalized_text = text.lower()
+        normalized_text = row['texte'].lower()
         normalized_text = normalized_text.replace("l. ", "l")
         normalized_text = normalized_text.replace("r. ", "r")
         normalized_text = normalized_text.replace("d. ", "d")

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <div class="plaintext">
+        <p>
+            The <a href="https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006072050/">Code du Travail</a> is the French Labor Code. <br/>
+            This little search engine is based on the <b>December 2023</b> version of the labor code, containing <b>20507</b> articles.<br/><br/>
+            It is designed to search through the Code du Travail's numerous articles and display the ones most relevant to the current user query.<br/><br/>
+
+            The logic behind the search engine is a simple <b>BM25</b> (TF-IDF) scoring algorithm, written in Python.<br/><br/>
+            The code for this whole project can be found on <a href="https://github.com/uboumedj/">my github</a>.
+        </p>
+    </div>
+</body>
+{% endblock %}
