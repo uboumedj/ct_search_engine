@@ -5,6 +5,7 @@ import os
 import time
 import locale
 from searchengine import SearchEngine
+from utilities import extract_titles
 
 def read_csv(file_path):
     """
@@ -24,25 +25,6 @@ def read_csv(file_path):
         return None
     return data
 
-
-def match_article_num(query, dataset):
-    """
-    Checks if the user query matches a valid article number from the
-    dataset, and returns the corresponding article if it is found.
-    Parameters:
-        query (str): the user's query
-        dataset (pandas dataFrame): the search engine's dataset
-    Returns:
-        The whole dataFrame row containing the matching entry, or None.
-    """
-    valid_article_num = re.match("^[LDR]{1}[0-9\-]+$", query)
-    if valid_article_num is not None:
-        article = dataset[dataset['article_num'].str.contains(query+"$")]
-        if not article.empty:
-            return article
-    return None
-
-
 def solve_query(query, dataset, engine):
     """
     Tries to solve the user's query using a combination of tools
@@ -54,9 +36,6 @@ def solve_query(query, dataset, engine):
         The "search engine's" result
     """
     results = []
-    article_num_check = match_article_num(query, dataset)
-    if article_num_check is not None:
-        results.append(article_num_check)
     search_results = engine.search(query)
     for article, score in search_results.items():
         article = dataset[dataset['article_id']==article]
@@ -84,21 +63,6 @@ def convert_date(timestamp):
     time_info = time.gmtime(timestamp)
     date = time.strftime("%d %b %Y", time_info)
     return date
-
-
-def extract_titles(title_string):
-    """
-    Transforms the path_title data into a readable list of titles
-    Parameters:
-        title_string (str): the string containeed in the path_title column
-    Returns:
-        A list of titles extracted from the string
-    """
-    title_string = title_string.strip("[]")
-    titles = title_string.split(",")
-    for i in range(len(titles)):
-        titles[i] = titles[i].strip(' "')
-    return titles
 
 
 def display_results(user_query, result_list):

@@ -4,6 +4,7 @@ import re
 import os
 import pickle
 from nltk.corpus import stopwords
+from utilities import extract_titles
 
 
 # Necessary to be able to pickle the index
@@ -14,7 +15,6 @@ def create_defaultdict():
 class SearchEngine:
     def __init__(self, dataset, index_path):
         self.database = dataset
-        print(dataset)
         self.index = defaultdict(create_defaultdict)
         self.saturation_parameter = 1.2
         self.length_parameter = 0.75
@@ -141,7 +141,11 @@ class SearchEngine:
         Returns:
             A list containing every word from the text
         """
-        normalized_text = row['texte'].lower()
+        augmented_text = row['texte']
+        augmented_text = augmented_text + (' ' + row['article_num']) * 10
+        for item in extract_titles(row['path_title']):
+            augmented_text = augmented_text + ' ' + item
+        normalized_text = augmented_text.lower()
         normalized_text = normalized_text.replace("l. ", "l")
         normalized_text = normalized_text.replace("r. ", "r")
         normalized_text = normalized_text.replace("d. ", "d")
