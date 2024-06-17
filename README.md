@@ -16,3 +16,9 @@ The search engine uses simple **BM25/TF-IDF** scoring to compute the relevance o
 BM25 search with Python is very slow. With a single term, search delay is reasonable. With multiple terms, it becomes cumbersome. Needs improvement.
 
 Also, might take a look at LLMs for query augmentation.
+
+## How to use
+
+To run the fastAPI version, simply use `fastapi run online.py`.
+
+To run a CLI simpler version, you can run `python main.py`.
