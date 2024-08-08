@@ -50,7 +50,7 @@ def about(request: Request):
 
 
 @app.get("/links", response_class=HTMLResponse)
-def about(request: Request):
+def links(request: Request):
     return templates.TemplateResponse("links.html", {"request": request})
 
 
